@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jejak Nusantara: Ekspedisi Sejarah Indonesia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- =========================================================
+       CSS RADIO STATE MACHINE (PENGENDALI LAYAR & KUIS)
+       ========================================================= -->
+  <input type="radio" name="screen" id="nav-welcome" class="state-radio" checked>
+  <input type="radio" name="screen" id="nav-map" class="state-radio">
+  <input type="radio" name="screen" id="nav-era1" class="state-radio">
+  <input type="radio" name="screen" id="nav-era2" class="state-radio">
+  <input type="radio" name="screen" id="nav-era3" class="state-radio">
+  <input type="radio" name="screen" id="nav-era4" class="state-radio">
+
+  <!-- Pin Peta Nusantara -->
+  <input type="radio" name="map-pin" id="pin-era1" class="state-radio" checked>
+  <input type="radio" name="map-pin" id="pin-era2" class="state-radio">
+  <input type="radio" name="map-pin" id="pin-era3" class="state-radio">
+  <input type="radio" name="map-pin" id="pin-era4" class="state-radio">
+
+  <!-- Stepper Soal Era 1 -->
+  <input type="radio" name="e1-step" id="e1-s1" class="state-radio" checked>
+  <input type="radio" name="e1-step" id="e1-s2" class="state-radio">
+  <input type="radio" name="e1-step" id="e1-s3" class="state-radio">
+  <input type="radio" name="e1-step" id="e1-done" class="state-radio">
+
+  <!-- Stepper Soal Era 2 -->
+  <input type="radio" name="e2-step" id="e2-s1" class="state-radio" checked>
+  <input type="radio" name="e2-step" id="e2-s2" class="state-radio">
+  <input type="radio" name="e2-step" id="e2-s3" class="state-radio">
+  <input type="radio" name="e2-step" id="e2-done" class="state-radio">
+
+  <!-- Stepper Soal Era 3 -->
+  <input type="radio" name="e3-step" id="e3-s1" class="state-radio" checked>
+  <input type="radio" name="e3-step" id="e3-s2" class="state-radio">
+  <input type="radio" name="e3-step" id="e3-s3" class="state-radio">
+  <input type="radio" name="e3-step" id="e3-done" class="state-radio">
+
+  <!-- Stepper Soal Era 4 -->
+  <input type="radio" name="e4-step" id="e4-s1" class="state-radio" checked>
+  <input type="radio" name="e4-step" id="e4-s2" class="state-radio">
+  <input type="radio" name="e4-step" id="e4-s3" class="state-radio">
+  <input type="radio" name="e4-step" id="e4-done" class="state-radio">
+
+  <!-- =========================================================
+       APLIKASI UTAMA
+       ========================================================= -->
+  <div class="app-wrapper">
+
+    <!-- HEADER GLOBAL -->
+    <header class="top-header">
+      <div class="brand">
+        <span class="brand-title">JEJAK NUSANTARA</span>
+      </div>
+      <div class="header-actions">
+        <a href="#modal-panduan" class="btn-outline">? Cara Bermain</a>
+        <a href="#modal-blueprint" class="btn-gold-sm">HUBUNGI ADMIN</a>
+      </div>
+    </header>
+
+    <!-- =======================================================
+         LAYAR 1: WELCOME / LANDING SCREEN
+         ======================================================= -->
+    <section id="screen-welcome" class="screen">
+      <div class="parchment-hero">
+        <div class="ornament-top">✦ EKSPEDISI INTERAKTIF SEJARAH INDONESIA ✦</div>
+        <h1 class="hero-title">JEJAK NUSANTARA</h1>
+        <p class="hero-subtitle">
+          Jelajahi peristiwa bersejarah dari masa Kerajaan Nusantara, Pergerakan Nasional, 
+          hingga Detik-Detik Proklamasi Kemerdekaan Indonesia.
+        </p>
+
+        <div class="explorer-form">
+          <label for="explorer-name" class="input-label">Nama Penjelajah:</label>
+          <input type="text" id="explorer-name" class="text-input" placeholder="Ketik nama Anda (misal: Raka Pratama)..." value="Penjelajah Nusantara">
+        </div>
+
+        <div class="hero-cta-group">
+          <label for="nav-map" class="btn-primary">MULAI EKSPEDISI ➔</label>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-pill">🏛️ 4 Era Sejarah</div>
+          <div class="stat-pill">📜 12 Studi Kasus</div>
+          <div class="stat-pill">⚡ 100% HTML & CSS Murni</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         LAYAR 2: MENU UTAMA (PETA INTERAKTIF NUSANTARA)
+         ======================================================= -->
+    <section id="screen-map" class="screen">
+      <div class="screen-header">
+        <div>
+          <h2 class="section-title">Peta Ekspedisi Nusantara</h2>
+          <p class="section-desc">Klik salah satu pin lokasi pada peta untuk memilih era sejarah dan memulai kuis.</p>
+        </div>
+        <label for="nav-welcome" class="btn-outline">← Kembali ke Awal</label>
+      </div>
+
+      <!-- Kanvas Peta Interaktif -->
+      <div class="map-container">
+        <svg viewBox="0 0 900 340" class="nusantara-svg" aria-label="Peta Indonesia Interaktif">
+          <line x1="0" y1="170" x2="900" y2="170" stroke="#bfa77a" stroke-dasharray="6,6" stroke-width="1"/>
+          <line x1="300" y1="0" x2="300" y2="340" stroke="#bfa77a" stroke-dasharray="6,6" stroke-width="1"/>
+          <line x1="600" y1="0" x2="600" y2="340" stroke="#bfa77a" stroke-dasharray="6,6" stroke-width="1"/>
+
+          <!-- Sumatera -->
+          <path d="M70,75 L135,120 L185,185 L165,205 L105,155 L55,95 Z" class="island-shape"/>
+          <!-- Jawa -->
+          <path d="M195,220 L345,235 L340,255 L190,242 Z" class="island-shape"/>
+          <!-- Kalimantan -->
+          <path d="M310,95 L410,85 L435,155 L365,180 L305,150 Z" class="island-shape"/>
+          <!-- Sulawesi -->
+          <path d="M475,110 L535,105 L520,145 L555,165 L515,195 L485,160 Z" class="island-shape"/>
+          <!-- Bali & Nusa Tenggara -->
+          <path d="M360,245 L495,255 L490,268 L358,257 Z" class="island-shape"/>
+          <!-- Maluku -->
+          <path d="M585,125 L635,120 L640,175 L590,180 Z" class="island-shape"/>
+          <!-- Papua -->
+          <path d="M685,150 L835,175 L840,245 L735,225 L680,185 Z" class="island-shape"/>
+
+          <!-- Garis Rute -->
+          <path d="M305,238 Q260,180 215,228 T250,232" fill="none" stroke="#9e2a2b" stroke-width="3" stroke-dasharray="6,6"/>
+        </svg>
+
+        <!-- PIN HTML DI ATAS PETA -->
+        <label for="pin-era1" class="html-pin pin-pos-1">
+          <span>📍</span>
+          <span class="pin-text-ui">1. Kerajaan Nusantara</span>
+        </label>
+
+        <label for="pin-era2" class="html-pin pin-pos-2">
+          <span>📍</span>
+          <span class="pin-text-ui">2. Pergerakan Nasional</span>
+        </label>
+
+        <label for="pin-era3" class="html-pin pin-pos-3">
+          <span>📍</span>
+          <span class="pin-text-ui">3. Detik Proklamasi</span>
+        </label>
+
+        <label for="pin-era4" class="html-pin pin-pos-4">
+          <span>📍</span>
+          <span class="pin-text-ui">4. Sejarah masuknya islam indonesia</span>
+        </label>
+      </div>
+
+      <!-- Panel Detail Misi di Bawah Peta -->
+      <div class="mission-preview-box">
+        <div id="preview-era1" class="preview-card">
+          <div class="preview-info">
+            <span class="era-tag">MISI 01 • ABAD KE-7 HINGGA KE-15</span>
+            <h3>Era Kerajaan Hindu-Buddha & Islam</h3>
+            <p>Uji wawasan Anda tentang kejayaan Sriwijaya, Sumpah Palapa Majapahit, hingga penyebaran Wali Songo di Tanah Jawa.</p>
+          </div>
+          <label for="nav-era1" class="btn-primary">Mulai Misi Era 1 ➔</label>
+        </div>
+
+        <div id="preview-era2" class="preview-card">
+          <div class="preview-info">
+            <span class="era-tag">MISI 02 • TAHUN 1908 – 1942</span>
+            <h3>Era Kebangkitan & Pergerakan Nasional</h3>
+            <p>Telusuri lahirnya Budi Utomo, ikrar Sumpah Pemuda 1928, dan perjuangan persatuan pemuda Indonesia.</p>
+          </div>
+          <label for="nav-era2" class="btn-primary">Mulai Misi Era 2 ➔</label>
+        </div>
+
+        <div id="preview-era3" class="preview-card">
+          <div class="preview-info">
+            <span class="era-tag">MISI 03 • AGUSTUS 1945</span>
+            <h3>Detik-Detik Proklamasi Kemerdekaan</h3>
+            <p>Pelajari peristiwa Rengasdengklok, perumusan naskah di rumah Laksamana Maeda, hingga pembacaan Proklamasi.</p>
+          </div>
+          <label for="nav-era3" class="btn-primary">Mulai Misi Era 3 ➔</label>
+        </div>
+        <div id="preview-era4" class="preview-card">
+          <div class="preview-info">
+            <span class="era-tag">MISI 04 • ABAD KE-7 HINGGA KE-16</span>
+            <h3>Sejarah Masuknya Islam di Indonesia</h3>
+            <p>Telusuri teori masuknya Islam (Gujarat, Mekkah, Persia), jalur perdagangan maritim, hingga dakwah kultural para Wali Songo.</p>
+          </div>
+          <label for="nav-era4" class="btn-primary">Mulai Misi Era 4 ➔</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         LAYAR 3A: KUIS ERA 1 (KERAJAAN NUSANTARA)
+         ======================================================= -->
+    <section id="screen-era1" class="screen">
+      <div class="quiz-topbar">
+        <span class="quiz-badge">MISI 01: KERAJAAN NUSANTARA</span>
+        <label for="nav-map" class="btn-outline">🗺️ Kembali ke Peta</label>
+      </div>
+
+      <!-- SOAL 1.1 -->
+      <div id="e1-q1-box" class="quiz-card">
+        <div class="quiz-progress">Soal 1 dari 3</div>
+        <div class="quiz-grid">
+          <div class="artifact-box">
+            <div class="artifact-icon">🏛️</div>
+            <div class="artifact-caption">Artefak: Prasasti Kedukan Bukit (682 M)</div>
+          </div>
+          <div class="question-area">
+            <h3 class="question-text">Kerajaan maritim besar di Sumatera yang dikenal sebagai pusat pembelajaran agama Buddha di Asia Tenggara adalah...</h3>
+            
+            <input type="radio" name="q1_1" id="q1_1_a" class="ans-radio">
+            <input type="radio" name="q1_1" id="q1_1_b" class="ans-radio">
+            <input type="radio" name="q1_1" id="q1_1_c" class="ans-radio">
+            <input type="radio" name="q1_1" id="q1_1_d" class="ans-radio">
+
+            <div class="options-list">
+              <label for="q1_1_a" class="opt-btn opt-wrong"><span class="opt-letter">A</span> Kerajaan Tarumanegara</label>
+              <label for="q1_1_b" class="opt-btn opt-correct"><span class="opt-letter">B</span> Kerajaan Sriwijaya</label>
+              <label for="q1_1_c" class="opt-btn opt-wrong"><span class="opt-letter">C</span> Kerajaan Singasari</label>
+              <label for="q1_1_d" class="opt-btn opt-wrong"><span class="opt-letter">D</span> Kerajaan Kutai</label>
+            </div>
+
+            <div class="feedback-panel">
+              <p><strong>Tahukah Kamu?</strong> Pendeta Tiongkok bernama I-Tsing mencatat bahwa ribuan biksu dari berbagai negeri singgah di Sriwijaya untuk mempelajari tata bahasa Sanskerta sebelum berangkat ke India.</p>
+              <label for="e1-s2" class="btn-primary">Lanjut Soal 2 ➔</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOAL 1.2 -->
+      <div id="e1-q2-box" class="quiz-card">
+        <div class="quiz-progress">Soal 2 dari 3</div>
+        <div class="quiz-grid">
+          <div class="artifact-box">
+            <div class="artifact-icon">🗡️</div>
+            <div class="artifact-caption">Artefak: Kitab Pararaton & Sumpah Palapa</div>
+          </div>
+          <div class="question-area">
+            <h3 class="question-text">Siapakah Mahapatih Kerajaan Majapahit yang mengucapkan Sumpah Palapa untuk menyatukan wilayah Nusantara?</h3>
+            
+            <input type="radio" name="q1_2" id="q1_2_a" class="ans-radio">
+            <input type="radio" name="q1_2" id="q1_2_b" class="ans-radio">
+            <input type="radio" name="q1_2" id="q1_2_c" class="ans-radio">
+            <input type="radio" name="q1_2" id="q1_2_d" class="ans-radio">
+
+            <div class="options-list">
+              <label for="q1_2_a" class="opt-btn opt-correct"><span class="opt-letter">A</span> Mahapatih Gajah Mada</label>
+              <label for="q1_2_b" class="opt-btn opt-wrong"><span class="opt-letter">B</span> Raden Wijaya</label>
+              <label for="q1_2_c" class="opt-btn opt-wrong"><span class="opt-letter">C</span> Mpu Tantular</label>
+              <label for="q1_2_d" class="opt-btn opt-wrong"><span class="opt-letter">D</span> Ken Arok</label>
+            </div>
+
+            <div class="feedback-panel">
+              <p><strong>Tahukah Kamu?</strong> Gajah Mada mengucapkan Sumpah Palapa pada tahun 1336 M saat dilantik sebagai Patih Amangkubhumi oleh Ratu Tribhuwana Tunggadewi.</p>
+              <label for="e1-s3" class="btn-primary">Lanjut Soal 3 ➔</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOAL 1.3 -->
+      <div id="e1-q3-box" class="quiz-card">
+        <div class="quiz-progress">Soal 3 dari 3</div>
+        <div class="quiz-grid">
+          <div class="artifact-box">
+            <div class="artifact-icon">🕌</div>
+            <div class="artifact-caption">Artefak: Masjid Agung Demak (1479 M)</div>
+          </div>
+          <div class="question-area">
+            <h3 class="question-text">Kerajaan Islam pertama di Pulau Jawa yang didirikan oleh Raden Patah dengan dukungan para Wali Songo adalah...</h3>
+            
+            <input type="radio" name="q1_3" id="q1_3_a" class="ans-radio">
+            <input type="radio" name="q1_3" id="q1_3_b" class="ans-radio">
+            <input type="radio" name="q1_3" id="q1_3_c" class="ans-radio">
+            <input type="radio" name="q1_3" id="q1_3_d" class="ans-radio">
+
+            <div class="options-list">
+              <label for="q1_3_a" class="opt-btn opt-wrong"><span class="opt-letter">A</span> Kesultanan Banten</label>
+              <label for="q1_3_b" class="opt-btn opt-wrong"><span class="opt-letter">B</span> Kesultanan Mataram</label>
+              <label for="q1_3_c" class="opt-btn opt-correct"><span class="opt-letter">C</span> Kesultanan Demak</label>
+              <label for="q1_3_d" class="opt-btn opt-wrong"><span class="opt-letter">D</span> Kesultanan Cirebon</label>
+            </div>
+
+            <div class="feedback-panel">
+              <p><strong>Tahukah Kamu?</strong> Masjid Agung Demak memiliki empat tiang utama bernama <em>Saka Guru</em>, salah satunya dibuat oleh Sunan Kalijaga dari serpihan kayu (saka tatal).</p>
+              <label for="e1-done" class="btn-primary">Selesaikan Misi 01 ➔</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HASIL ERA 1 -->
+      <div id="e1-result-box" class="result-card">
+        <div class="trophy-icon">🏆</div>
+        <h2>Misi 01 Selesai!</h2>
+        <p>Anda telah menuntaskan ekspedisi Era Kerajaan Nusantara dan memperoleh lencana <strong>Penjaga Warisan Sriwijaya & Majapahit</strong>.</p>
+        <div class="result-actions">
+          <label for="e1-s1" class="btn-outline">↻ Ulangi Misi 01</label>
+          <label for="nav-map" class="btn-primary">Lanjut ke Peta Nusantara ➔</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         LAYAR 3B: KUIS ERA 2 (PERGERAKAN NASIONAL)
+         ======================================================= -->
+    <section id="screen-era2" class="screen">
+      <div class="quiz-topbar">
+        <span class="quiz-badge">MISI 02: PERGERAKAN NASIONAL</span>
+        <label for="nav-map" class="btn-outline">🗺️ Kembali ke Peta</label>
+      </div>
+
+      <!-- SOAL 2.1 -->
+      <div id="e2-q1-box" class="quiz-card">
+        <div class="quiz-progress">Soal 1 dari 3</div>
+        <div class="quiz-grid">
+          <div class="artifact-box">
+            <div class="artifact-icon">📜</div>
+            <div class="artifact-caption">Artefak: Gedung STOVIA Batavia (20 Mei 1908)</div>
+          </div>
+          <div class="question-area">
+            <h3 class="question-text">Organisasi modern pertama yang menjadi tonggak Hari Kebangkitan Nasional pada 20 Mei 1908 adalah...</h3>
+            
+            <input type="radio" name="q2_1" id="q2_1_a" class="ans-radio">
+            <input type="radio" name="q2_1" id="q2_1_b" class="ans-radio">
+            <input type="radio" name="q2_1" id="q2_1_c" class="ans-radio">
+            <input type="radio" name="q2_1" id="q2_1_d" class="ans-radio">
+
+            <div class="options-list">
+              <label for="q2_1_a" class="opt-btn opt-correct"><span class="opt-letter">A</span> Budi Utomo</label>
+              <label for="q2_1_b" class="opt-btn opt-wrong"><span class="opt-letter">B</span> Sarekat Islam</label>
+              <label for="q2_1_c" class="opt-btn opt-wrong"><span class="opt-letter">C</span> Indische Partij</label>
+              <label for="q2_1_d" class="opt-btn opt-wrong"><span class="opt-letter">D</span> Perhimpunan Indonesia</label>
+            </div>
+
+            <div class="feedback-panel">
+              <p><strong>Tahukah Kamu?</strong> Budi Utomo digagas oleh dr. Wahidin Sudirohusodo dan didirikan oleh para mahasiswa kedokteran STOVIA yang diketuai oleh dr. Soetomo.</p>
+              <label for="e2-s2" class="btn-primary">Lanjut Soal 2 ➔</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOAL 2.2 -->
+      <div id="e2-q2-box" class="quiz-card">
+        <div class="quiz-progress">Soal 2 dari 3</div>
+        <div class="quiz-grid">
+          <div class="artifact-box">
+            <div class="artifact-icon">🎻</div>
+            <div class="artifact-caption">Artefak: Biola W.R. Supratman (28 Oktober 1928)</div>
+          </div>
+          <div class="question-area">
+            <h3 class="question-text">Pada Kongres Pemuda II tanggal 28 Oktober 1928, lagu "Indonesia Raya" pertama kali diperdengarkan menggunakan...</h3>
+            
+            <input type="radio" name="q2_2" id="q2_2_a" class="ans-radio">
+            <input type="radio" name="q2_2" id="q2_2_b" class="ans-radio">
+            <input type="radio" name="q2_2" id="q2_2_c" class="ans-radio">
+            <input type="radio" name="q2_2" id="q2_2_d" class="ans-radio">
+
+            <div class="options-list">
+              <label for="q2_2_a" class="opt-btn opt-wrong"><span class="opt-letter">A</span> Paduan suara penuh</label>
+              <label for="q2_2_b" class="opt-btn opt-correct"><span class="opt-letter">B</span> Gesekan biola solo W.R. Supratman</label>
+              <label for="q2_2_c" class="opt-btn opt-wrong"><span class="opt-letter">C</span> Siaran radio RRI</label>
+              <label for="q2_2_d" class="opt-btn opt-wrong"><span class="opt-letter">D</span> Iringan gamelan Jawa</label>
+            </div>
+
+            <div class="feedback-panel">
+              <p><strong>Tahukah Kamu?</strong> W.R. Supratman memainkan lagu Indonesia Raya secara instrumental tanpa syair agar tidak memicu pembubaran rapat oleh polisi rahasia Belanda (PID).</p>
+              <label for="e2-s3" class="btn-primary">Lanjut Soal 3 ➔</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOAL 2.3 -->
+      <div id="e2-q3-box" class="quiz-card">
+        <div class="quiz-progress">Soal 3 dari 3</div>
+        <div class="quiz-grid">
+          <div class="artifact-box">
+            <div class="artifact-icon">📚</div>
+            <div class="artifact-caption">Artefak: Perguruan Taman Siswa (1922)</div>
+          </div>
+          <div class="question-area">
+            <h3 class="question-text">Tokoh Tiga Serangkai yang mendirikan Perguruan Taman Siswa serta mencetuskan semboyan "Tut Wuri Handayani" adalah...</h3>
+            
+            <input type="radio" name="q2_3" id="q2_3_a" class="ans-radio">
+            <input type="radio" name="q2_3" id="q2_3_b" class="ans-radio">
+            <input type="radio" name="q2_3" id="q2_3_c" class="ans-radio">
+            <input type="radio" name="q2_3" id="q2_3_d" class="ans-radio">
+
+            <div class="options-list">
+              <label for="q2_3_a" class="opt-btn opt-wrong"><span class="opt-letter">A</span> Dr. Cipto Mangunkusumo</label>
+              <label for="q2_3_b" class="opt-btn opt-wrong"><span class="opt-letter">B</span> Douwes Dekker</label>
+              <label for="q2_3_c" class="opt-btn opt-correct"><span class="opt-letter">C</span> Ki Hajar Dewantara</label>
+              <label for="q2_3_d" class="opt-btn opt-wrong"><span class="opt-letter">D</span> H.O.S. Tjokroaminoto</label>
+            </div>
+
+            <div class="feedback-panel">
+              <p><strong>Tahukah Kamu?</strong> Nama asli Ki Hajar Dewantara adalah Raden Mas Soewardi Soerjaningrat. Ia menanggalkan gelar kebangsawanannya pada usia 40 tahun agar lebih dekat dengan rakyat.</p>
+              <label for="e2-done" class="btn-primary">Selesaikan Misi 02 ➔</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HASIL ERA 2 -->
+      <div id="e2-result-box" class="result-card">
+        <div class="trophy-icon">🎖️</div>
+        <h2>Misi 02 Selesai!</h2>
+        <p>Anda telah menuntaskan ekspedisi Pergerakan Nasional dan meraih lencana <strong>Pelopor Sumpah Pemuda</strong>.</p>
+        <div class="result-actions">
+          <label for="e2-s1" class="btn-outline">↻ Ulangi Misi 02</label>
+          <label for="nav-map" class="btn-primary">Lanjut ke Peta Nusantara ➔</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         LAYAR 3C: KUIS ERA 3 (DETIK PROKLAMASI)
+         ======================================================= -->
+    <section id="screen-era3" class="screen">
+      <div class="quiz-topbar">
+        <span class="quiz-badge">MISI 03: DETIK PROKLAMASI</span>
+        <label for="nav-map" class="btn-outline">🗺️ Kembali ke Peta</label>
+      </div>
+
+      <!-- SOAL 3.1 -->
+      <div id="e3-q1-box" class="quiz-card">
+        <div class="quiz-progress">Soal 1 dari 3</div>
+        <div class="quiz-grid">
+          <div class="artifact-box">
+            <div class="artifact-icon">🏡</div>
+            <div class="artifact-caption">Artefak: Rumah Djiaw Kie Siong (16 Agustus 1945)</div>
+          </div>
+          <div class="question-area">
+            <h3 class="question-text">Tujuan utama golongan muda membawa Soekarno dan Hatta ke Rengasdengklok pada 16 Agustus 1945 dini hari adalah...</h3>
+            
+            <input type="radio" name="q3_1" id="q3_1_a" class="ans-radio">
+            <input type="radio" name="q3_1" id="q3_1_b" class="ans-radio">
+            <input type="radio" name="q3_1" id="q3_1_c" class="ans-radio">
+            <input type="radio" name="q3_1" id="q3_1_d" class="ans-radio">
+
+            <div class="options-list">
+              <label for="q3_1_a" class="opt-btn opt-correct"><span class="opt-letter">A</span> Menjauhkan keduanya dari pengaruh Jepang agar segera memproklamasikan kemerdekaan</label>
+              <label for="q3_1_b" class="opt-btn opt-wrong"><span class="opt-letter">B</span> Menunggu kedatangan pasukan Sekutu ke Karawang</label>
+              <label for="q3_1_c" class="opt-btn opt-wrong"><span class="opt-letter">C</span> Melaksanakan sidang terakhir PPKI</label>
+              <label for="q3_1_d" class="opt-btn opt-wrong"><span class="opt-letter">D</span> Menyusun Undang-Undang Dasar 1945</label>
+            </div>
+
+            <div class="feedback-panel">
+              <p><strong>Tahukah Kamu?</strong> Perbedaan pendapat antara golongan tua dan golongan muda akhirnya diselesaikan setelah Ahmad Soebardjo menjamin bahwa Proklamasi akan dibacakan selambat-lambatnya 17 Agustus 1945 pukul 12.00 siang.</p>
+              <label for="e3-s2" class="btn-primary">Lanjut Soal 2 ➔</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOAL 3.2 -->
+      <div id="e3-q2-box" class="quiz-card">
+        <div class="quiz-progress">Soal 2 dari 3</div>
+        <div class="quiz-grid">
+          <div class="artifact-box">
+            <div class="artifact-icon">⌨️</div>
+            <div class="artifact-caption">Artefak: Mesin Tik Konsulat Jerman (17 Agustus 1945 Dini Hari)</div>
+          </div>
+          <div class="question-area">
+            <h3 class="question-text">Siapakah tokoh yang mengetik naskah autentik Proklamasi Kemerdekaan Indonesia di rumah Laksamana Tadashi Maeda?</h3>
+            
+            <input type="radio" name="q3_2" id="q3_2_a" class="ans-radio">
+            <input type="radio" name="q3_2" id="q3_2_b" class="ans-radio">
+            <input type="radio" name="q3_2" id="q3_2_c" class="ans-radio">
+            <input type="radio" name="q3_2" id="q3_2_d" class="ans-radio">
+
+            <div class="options-list">
+              <label for="q3_2_a" class="opt-btn opt-wrong"><span class="opt-letter">A</span> Sukarni</label>
+              <label for="q3_2_b" class="opt-btn opt-wrong"><span class="opt-letter">B</span> B.M. Diah</label>
+              <label for="q3_2_c" class="opt-btn opt-correct"><span class="opt-letter">C</span> Sayuti Melik</label>
+              <label for="q3_2_d" class="opt-btn opt-wrong"><span class="opt-letter">D</span> Wikana</label>
+            </div>
+
+            <div class="feedback-panel">
+              <p><strong>Tahukah Kamu?</strong> Mesin tik yang digunakan Sayuti Melik dipinjam dari kantor perwakilan Angkatan Laut Jerman di Jakarta karena rumah Laksamana Maeda hanya memiliki mesin tik berhuruf Kanji.</p>
+              <label for="e3-s3" class="btn-primary">Lanjut Soal 3 ➔</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOAL 3.3 -->
+      <div id="e3-q3-box" class="quiz-card">
+        <div class="quiz-progress">Soal 3 dari 3</div>
+        <div class="quiz-grid">
+          <div class="artifact-box">
+            <div class="artifact-icon">🇮🇩</div>
+            <div class="artifact-caption">Artefak: Bendera Pusaka Sang Saka Merah Putih</div>
+          </div>
+          <div class="question-area">
+            <h3 class="question-text">Di jalan manakah teks Proklamasi Kemerdekaan Indonesia dibacakan oleh Ir. Soekarno pada Jumat, 17 Agustus 1945 pukul 10.00 WIB?</h3>
+            
+            <input type="radio" name="q3_3" id="q3_3_a" class="ans-radio">
+            <input type="radio" name="q3_3" id="q3_3_b" class="ans-radio">
+            <input type="radio" name="q3_3" id="q3_3_c" class="ans-radio">
+            <input type="radio" name="q3_3" id="q3_3_d" class="ans-radio">
+
+            <div class="options-list">
+              <label for="q3_3_a" class="opt-btn opt-wrong"><span class="opt-letter">A</span> Lapangan Ikada</label>
+              <label for="q3_3_b" class="opt-btn opt-correct"><span class="opt-letter">B</span> Jl. Pegangsaan Timur No. 56, Jakarta</label>
+              <label for="q3_3_c" class="opt-btn opt-wrong"><span class="opt-letter">C</span> Jl. Imam Bonjol No. 1, Jakarta</label>
+              <label for="q3_3_d" class="opt-btn opt-wrong"><span class="opt-letter">D</span> Gedung Kramat Raya No. 106</label>
+            </div>
+
+            <div class="feedback-panel">
+              <p><strong>Tahukah Kamu?</strong> Bendera Merah Putih yang dikibarkan oleh Latief Hendraningrat dan Suhud pada upacara tersebut dijahit tangan oleh Ibu Fatmawati dari dua helai kain katun Jepang.</p>
+              <label for="e3-done" class="btn-primary">Selesaikan Misi 03 ➔</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HASIL ERA 3 -->
+      <div id="e3-result-box" class="result-card">
+        <div class="trophy-icon">🇮🇩</div>
+        <h2>Misi 03 Selesai!</h2>
+        <p>Selamat! Anda telah menyelesaikan ekspedisi Detik-Detik Proklamasi Kemerdekaan dan meraih lencana <strong>Pahlawan Kemerdekaan</strong>.</p>
+        <div class="result-actions">
+          <label for="e3-s1" class="btn-outline">↻ Ulangi Misi 03</label>
+          <label for="nav-map" class="btn-primary">Lanjut ke Peta Nusantara ➔</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         LAYAR 4D: KUIS ERA 4 (SEJARAH ISLAM DI INDONESIA)
+         ======================================================= -->
+    <section id="screen-era4" class="screen">
+      <div class="quiz-topbar">
+        <span class="quiz-badge">MISI 04: SEJARAH ISLAM DI NUSANTARA</span>
+        <label for="nav-map" class="btn-outline">🗺️ Kembali ke Peta</label>
+      </div>
+
+      <!-- SOAL 4.1 -->
+      <div id="e4-q1-box" class="quiz-card">
+        <div class="quiz-progress">Soal 1 dari 3</div>
+        <div class="quiz-grid">
+          <div class="artifact-box">
+            <div class="artifact-icon">🕌</div>
+            <div class="artifact-caption">Masuknya islam ke indonesia</div>
+          </div>
+          <div class="question-area">
+            <h3 class="question-text">Islam masuk ke wilayah Aceh pada abad ke</h3>
+            
+            <input type="radio" name="q4_1" id="q4_1_a" class="ans-radio">
+            <input type="radio" name="q4_1" id="q4_1_b" class="ans-radio">
+            <input type="radio" name="q4_1" id="q4_1_c" class="ans-radio">
+            <input type="radio" name="q4_1" id="q4_1_d" class="ans-radio">
+
+            <div class="options-list">
+              <label for="q4_1_a" class="opt-btn opt-correct"><span class="opt-letter">A</span> Ke-7</label>
+              <label for="q4_1_b" class="opt-btn opt-wrong"><span class="opt-letter">B</span> Ke-8</label>
+              <label for="q4_1_c" class="opt-btn opt-wrong"><span class="opt-letter">C</span> Ke-20</label>
+              <label for="q4_1_d" class="opt-btn opt-wrong"><span class="opt-letter">D</span> Ke-5</label>
+            </div>
+
+            <div class="feedback-panel">
+              <p><strong>Tahukah Kamu?</strong> Islam masuk ke wilayah Aceh pada abad ke-7 Masehi (abad ke-1 Hijriyah) langsung dari tanah Arab melalui jalur perdagangan maritim, menjadikannya wilayah pertama di Indonesia yang menerima ajaran Islam.</p>
+              <label for="e4-s2" class="btn-primary">Lanjut Soal 2 ➔</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOAL 4.2 -->
+      <div id="e4-q2-box" class="quiz-card">
+        <div class="quiz-progress">Soal 2 dari 3</div>
+        <div class="quiz-grid">
+          <div class="artifact-box">
+            <div class="artifact-icon">📜</div>
+            <div class="artifact-caption">Artefak: Naskah Berita Dinasti Tang & Buya Hamka</div>
+          </div>
+          <div class="question-area">
+            <h3 class="question-text">Teori yang menyatakan bahwa Islam masuk ke Indonesia langsung dari Arab/Mesir sejak abad ke-7 yang didukung kuat oleh Buya Hamka adalah...</h3>
+            
+            <input type="radio" name="q4_2" id="q4_2_a" class="ans-radio">
+            <input type="radio" name="q4_2" id="q4_2_b" class="ans-radio">
+            <input type="radio" name="q4_2" id="q4_2_c" class="ans-radio">
+            <input type="radio" name="q4_2" id="q4_2_d" class="ans-radio">
+
+            <div class="options-list">
+              <label for="q4_2_a" class="opt-btn opt-wrong"><span class="opt-letter">A</span> Teori Gujarat (India)</label>
+              <label for="q4_2_b" class="opt-btn opt-wrong"><span class="opt-letter">B</span> Teori Persia</label>
+              <label for="q4_2_c" class="opt-btn opt-correct"><span class="opt-letter">C</span> Teori Makkah (Arab)</label>
+              <label for="q4_2_d" class="opt-btn opt-wrong"><span class="opt-letter">D</span> Teori Tiongkok</label>
+            </div>
+
+            <div class="feedback-panel">
+              <p><strong>Tahukah Kamu?</strong> Teori Makkah didasarkan pada catatan musafir Tiongkok abad ke-7 (tahun 674 M) yang menyebut adanya pemukiman pedagang Arab (Ta-Shih) di pesisir barat Barus, Sumatera Utara.</p>
+              <label for="e4-s3" class="btn-primary">Lanjut Soal 3 ➔</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOAL 4.3 -->
+      <div id="e4-q3-box" class="quiz-card">
+        <div class="quiz-progress">Soal 3 dari 3</div>
+        <div class="quiz-grid">
+          <div class="artifact-box">
+            <div class="artifact-icon">🎭</div>
+            <div class="artifact-caption">Artefak: Wayang Kulit & Gamelan Sekaten</div>
+          </div>
+          <div class="question-area">
+            <h3 class="question-text">Tokoh Wali Songo yang dikenal sangat piawai menyebarkan ajaran Islam melalui media kesenian wayang kulit dan gubahan tembang Jawa adalah...</h3>
+            
+            <input type="radio" name="q4_3" id="q4_3_a" class="ans-radio">
+            <input type="radio" name="q4_3" id="q4_3_b" class="ans-radio">
+            <input type="radio" name="q4_3" id="q4_3_c" class="ans-radio">
+            <input type="radio" name="q4_3" id="q4_3_d" class="ans-radio">
+
+            <div class="options-list">
+              <label for="q4_3_a" class="opt-btn opt-correct"><span class="opt-letter">A</span> Sunan Kalijaga (Raden Said)</label>
+              <label for="q4_3_b" class="opt-btn opt-wrong"><span class="opt-letter">B</span> Sunan Giri</label>
+              <label for="q4_3_c" class="opt-btn opt-wrong"><span class="opt-letter">C</span> Sunan Bonang</label>
+              <label for="q4_3_d" class="opt-btn opt-wrong"><span class="opt-letter">D</span> Sunan Gunung Jati</label>
+            </div>
+
+            <div class="feedback-panel">
+              <p><strong>Tahukah Kamu?</strong> Sunan Kalijaga menggunakan tembang seperti <em>Ilir-Ilir</em> dan lakon wayang bernafaskan Islam, di mana para penonton yang ingin menyaksikan cukup bersyahadat (syahadatain/sekaten).</p>
+              <label for="e4-done" class="btn-primary">Selesaikan Misi 04 ➔</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HASIL ERA 4 -->
+      <div id="e4-result-box" class="result-card">
+        <div class="trophy-icon">🕌</div>
+        <h2>Misi 04 Selesai!</h2>
+        <p>Selamat! Anda telah menuntaskan ekspedisi Sejarah Masuknya Islam di Indonesia dan meraih lencana <strong>Penjelajah Syiar Nusantara</strong>.</p>
+        <div class="result-actions">
+          <label for="e4-s1" class="btn-outline">↻ Ulangi Misi 04</label>
+          <label for="nav-map" class="btn-primary">Lanjut ke Peta Nusantara ➔</label>
+        </div>
+      </div>
+    </section>
+
+  <!-- =========================================================
+       MODAL PANDUAN BERMAIN
+       ========================================================= -->
+  <div id="modal-panduan" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Panduan Ekspedisi Jejak Nusantara</h3>
+        <a href="#" class="modal-close">✕</a>
+      </div>
+      <div class="modal-body">
+        <ol class="guide-list">
+          <li><strong>Masukkan Nama Penjelajah</strong> pada halaman awal lalu klik <em>Mulai Ekspedisi</em>.</li>
+          <li><strong>Pilih Pin Lokasi</strong> pada Peta Nusantara untuk meninjau era sejarah yang ingin dijelajahi.</li>
+          <li><strong>Jawab Pertanyaan Studi Kasus</strong> dengan mengklik salah satu pilihan A, B, C, atau D. Jawaban benar akan disorot hijau beserta fakta sejarah singkat.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL BLUEPRINT ARSITEKTUR SI
+       ========================================================= -->
+  <div id="modal-blueprint" class="modal-overlay">
+    <div class="modal-box modal-wide">
+      <div class="modal-header">
+        <h3>HUBUNGI ADMIN</h3>
+        <a href="#" class="modal-close">✕</a>
+      </div>
+      <div class="modal-body">
+        <div class="bp-grid">
+          <div class="bp-item">
+            <h4>1.Follow instagram</h4>        
+            <p><strong>@</strong> ojannnm</p>
+          </div>
+          <div class="bp-item">
+            <h4>2. follow tiktok</h4>
+            <p><strong>@</strong> ojannnm</p>
+          </div>
+          <div class="bp-item">
+            <h4>3. telepon</h4>
+            <p><strong>Nomer:</strong> 089652413534</p>
+        </div>
+        <div class="bp-item">
+            <h4>3. Email</h4>
+            <p><strong>Email:</strong>fauzanmutasim@gmail.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
