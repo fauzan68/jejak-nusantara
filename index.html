@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jejak Nusantara: Ekspedisi Sejarah Indonesia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <!-- HEADER GLOBAL -->
+    <header class="top-header">
+      <div class="brand" onclick="app.navigate('welcome')" style="cursor:pointer;">
+        <span class="brand-title">JEJAK NUSANTARA</span>
+      </div>
+      <div class="header-actions">
+        <div id="user-hud" class="user-hud hidden">
+          <span id="hud-name">Penjelajah</span> • 
+          <strong id="hud-score">0 Poin</strong>
+        </div>
+        <button class="btn-outline" onclick="app.navigate('leaderboard')">🏆 Papan Peringkat</button>
+        <button class="btn-outline" onclick="app.navigate('add-question')">📜 Tambah Soal</button>
+        <button class="btn-outline" onclick="app.openModal('modal-panduan')">? Cara Bermain</button>
+        <button class="btn-gold-sm" onclick="app.openModal('modal-admin')">HUBUNGI ADMIN</button>
+      </div>
+    </header>
+
+    <!-- =======================================================
+         LAYAR 1: WELCOME / LANDING SCREEN
+         ======================================================= -->
+    <section id="screen-welcome" class="screen active">
+      <div class="parchment-hero">
+        <div class="ornament-top">✦ EKSPEDISI INTERAKTIF SEJARAH INDONESIA ✦</div>
+        <h1 class="hero-title">JEJAK NUSANTARA</h1>
+        <p class="hero-subtitle">
+          Jelajahi peristiwa bersejarah dari masa Kerajaan Nusantara, Pergerakan Nasional, 
+          hingga Detik-Detik Proklamasi Kemerdekaan Indonesia.
+        </p>
+
+        <div class="explorer-form">
+          <label for="explorer-name" class="input-label">Nama Penjelajah:</label>
+          <input type="text" id="explorer-name" class="text-input" placeholder="Ketik nama Anda (misal: Raka Pratama)...">
+          <small class="form-hint">*Progres, lencana, dan skor otomatis tersimpan di database.</small>
+        </div>
+
+        <div class="hero-cta-group">
+          <button class="btn-primary" onclick="app.startExpedition()">MULAI EKSPEDISI ➔</button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-pill">🏛️ 4 Era Sejarah</div>
+          <div class="stat-pill" id="total-questions-stat">📜 12 Studi Kasus</div>
+          <div class="stat-pill" id="total-explorers-stat">🧭 0 Penjelajah Terdaftar</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         LAYAR 2: PETA INTERAKTIF NUSANTARA
+         ======================================================= -->
+    <section id="screen-map" class="screen">
+      <div class="screen-header">
+        <div>
+          <h2 class="section-title">Peta Ekspedisi Nusantara</h2>
+          <p class="section-desc">Klik pin lokasi pada peta untuk memilih era sejarah. Lencana akan tersimpan otomatis.</p>
+        </div>
+        <div class="header-btn-group">
+          <button class="btn-outline" onclick="app.navigate('welcome')">← Ganti Penjelajah</button>
+        </div>
+      </div>
+
+      <!-- Kanvas Peta Interaktif -->
+      <div class="map-container">
+        <svg viewBox="0 0 900 340" class="nusantara-svg" aria-label="Peta Indonesia Interaktif">
+          <line x1="0" y1="170" x2="900" y2="170" stroke="#bfa77a" stroke-dasharray="6,6" stroke-width="1"/>
+          <line x1="300" y1="0" x2="300" y2="340" stroke="#bfa77a" stroke-dasharray="6,6" stroke-width="1"/>
+          <line x1="600" y1="0" x2="600" y2="340" stroke="#bfa77a" stroke-dasharray="6,6" stroke-width="1"/>
+
+          <!-- Sumatera -->
+          <path d="M70,75 L135,120 L185,185 L165,205 L105,155 L55,95 Z" class="island-shape"/>
+          <!-- Jawa -->
+          <path d="M195,220 L345,235 L340,255 L190,242 Z" class="island-shape"/>
+          <!-- Kalimantan -->
+          <path d="M310,95 L410,85 L435,155 L365,180 L305,150 Z" class="island-shape"/>
+          <!-- Sulawesi -->
+          <path d="M475,110 L535,105 L520,145 L555,165 L515,195 L485,160 Z" class="island-shape"/>
+          <!-- Bali & Nusa Tenggara -->
+          <path d="M360,245 L495,255 L490,268 L358,257 Z" class="island-shape"/>
+          <!-- Maluku -->
+          <path d="M585,125 L635,120 L640,175 L590,180 Z" class="island-shape"/>
+          <!-- Papua -->
+          <path d="M685,150 L835,175 L840,245 L735,225 L680,185 Z" class="island-shape"/>
+
+          <!-- Garis Rute -->
+          <path d="M305,238 Q260,180 215,228 T250,232" fill="none" stroke="#9e2a2b" stroke-width="3" stroke-dasharray="6,6"/>
+        </svg>
+
+        <!-- PIN HTML DINAMIS -->
+        <button class="html-pin pin-pos-1 active-pin" data-era="era1" onclick="app.selectEra('era1')">
+          <span class="pin-status" id="status-era1">📍</span>
+          <span class="pin-text-ui">1. Kerajaan Nusantara</span>
+        </button>
+
+        <button class="html-pin pin-pos-2" data-era="era2" onclick="app.selectEra('era2')">
+          <span class="pin-status" id="status-era2">📍</span>
+          <span class="pin-text-ui">2. Pergerakan Nasional</span>
+        </button>
+
+        <button class="html-pin pin-pos-3" data-era="era3" onclick="app.selectEra('era3')">
+          <span class="pin-status" id="status-era3">📍</span>
+          <span class="pin-text-ui">3. Detik Proklamasi</span>
+        </button>
+
+        <button class="html-pin pin-pos-4" data-era="era4" onclick="app.selectEra('era4')">
+          <span class="pin-status" id="status-era4">📍</span>
+          <span class="pin-text-ui">4. Masuknya Islam</span>
+        </button>
+      </div>
+
+      <!-- Panel Pratinjau Misi Dinamis -->
+      <div class="mission-preview-box" id="mission-preview-box"></div>
+
+      <!-- Koleksi Lencana Penjelajah -->
+      <div class="badges-section">
+        <h3 class="badges-title">🎖️ Lencana Ekspedisi Tersimpan</h3>
+        <div id="badges-container" class="badges-grid"></div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         LAYAR 3: ARENA KUIS DINAMIS
+         ======================================================= -->
+    <section id="screen-quiz" class="screen">
+      <div class="quiz-topbar">
+        <span class="quiz-badge" id="quiz-era-badge">MISI 01</span>
+        <div class="quiz-stats-inline">
+          <span id="quiz-streak-badge" class="streak-pill">🔥 Streak: 0</span>
+          <button class="btn-outline" onclick="app.navigate('map')">🗺️ Kembali ke Peta</button>
+        </div>
+      </div>
+
+      <div id="quiz-container"></div>
+    </section>
+
+    <!-- =======================================================
+         LAYAR 4: PAPAN PERINGKAT (LEADERBOARD DATABASE)
+         ======================================================= -->
+    <section id="screen-leaderboard" class="screen">
+      <div class="screen-header">
+        <div>
+          <h2 class="section-title">🏆 Papan Peringkat Penjelajah</h2>
+          <p class="section-desc">Data skor tertinggi penjelajah yang tersimpan di database.</p>
+        </div>
+        <button class="btn-outline" onclick="app.navigate('map')">← Kembali ke Peta</button>
+      </div>
+
+      <div class="card-box">
+        <div class="table-controls">
+          <input type="text" id="search-player" class="text-input" placeholder="Cari nama penjelajah..." oninput="app.renderLeaderboard()">
+          <button class="btn-outline danger-btn" onclick="app.resetDatabase()">🗑️ Reset Database</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Peringkat</th>
+                <th>Nama Penjelajah</th>
+                <th>Misi Selesai</th>
+                <th>Total Poin</th>
+                <th>Terakhir Aktif</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         LAYAR 5: TAMBAH SOAL KE DATABASE (KONTRIBUTOR / ADMIN)
+         ======================================================= -->
+    <section id="screen-add-question" class="screen">
+      <div class="screen-header">
+        <div>
+          <h2 class="section-title">📜 Tambah Studi Kasus ke Database</h2>
+          <p class="section-desc">Tambahkan pertanyaan sejarah baru ke dalam salah satu dari 4 Era Nusantara.</p>
+        </div>
+        <button class="btn-outline" onclick="app.navigate('map')">← Kembali ke Peta</button>
+      </div>
+
+      <form id="add-question-form" class="card-box form-grid" onsubmit="app.saveNewQuestion(event)">
+        <div class="form-group">
+          <label class="input-label">Pilih Era Sejarah:</label>
+          <select id="q-era" class="text-input" required>
+            <option value="era1">Misi 01: Kerajaan Nusantara</option>
+            <option value="era2">Misi 02: Pergerakan Nasional</option>
+            <option value="era3">Misi 03: Detik Proklamasi</option>
+            <option value="era4">Misi 04: Sejarah Masuknya Islam</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="input-label">Ikon & Nama Artefak:</label>
+          <div class="inline-2">
+            <input type="text" id="q-icon" class="text-input" value="🏺" maxlength="4" required>
+            <input type="text" id="q-artifact" class="text-input" placeholder="Contoh: Prasasti Ciaruteun" required>
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label class="input-label">Pertanyaan Studi Kasus:</label>
+          <textarea id="q-text" class="text-input" rows="2" placeholder="Tuliskan pertanyaan sejarah..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="input-label">Pilihan A:</label>
+          <input type="text" id="q-opt-0" class="text-input" required>
+        </div>
+        <div class="form-group">
+          <label class="input-label">Pilihan B:</label>
+          <input type="text" id="q-opt-1" class="text-input" required>
+        </div>
+        <div class="form-group">
+          <label class="input-label">Pilihan C:</label>
+          <input type="text" id="q-opt-2" class="text-input" required>
+        </div>
+        <div class="form-group">
+          <label class="input-label">Pilihan D:</label>
+          <input type="text" id="q-opt-3" class="text-input" required>
+        </div>
+
+        <div class="form-group">
+          <label class="input-label">Kunci Jawaban Benar:</label>
+          <select id="q-answer" class="text-input" required>
+            <option value="0">Pilihan A</option>
+            <option value="1">Pilihan B</option>
+            <option value="2">Pilihan C</option>
+            <option value="3">Pilihan D</option>
+          </select>
+        </div>
+
+        <div class="form-group full-width">
+          <label class="input-label">Fakta Sejarah (Tahukah Kamu?):</label>
+          <textarea id="q-fact" class="text-input" rows="2" placeholder="Penjelasan singkat saat jawaban dipilih..." required></textarea>
+        </div>
+
+        <div class="form-group full-width">
+          <button type="submit" class="btn-primary">💾 Simpan Soal ke Database</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- =========================================================
+       MODAL PANDUAN BERMAIN
+       ========================================================= -->
+  <div id="modal-panduan" class="modal-overlay" onclick="app.closeModalOnBg(event, 'modal-panduan')">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Panduan Ekspedisi Jejak Nusantara</h3>
+        <button class="modal-close" onclick="app.closeModal('modal-panduan')">✕</button>
+      </div>
+      <div class="modal-body">
+        <ol class="guide-list">
+          <li><strong>Masukkan Nama Penjelajah</strong> pada halaman awal. Akun & progres otomatis tersimpan.</li>
+          <li><strong>Pilih Pin Lokasi</strong> pada Peta Nusantara untuk meninjau era sejarah.</li>
+          <li><strong>Jawab Studi Kasus</strong> untuk mendapatkan poin (+100 poin per soal benar + bonus streak) dan membuka lencana.</li>
+          <li><strong>Tambah Soal</strong> melalui menu atas untuk memperkaya bank soal di dalam database.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL HUBUNGI ADMIN
+       ========================================================= -->
+  <div id="modal-admin" class="modal-overlay" onclick="app.closeModalOnBg(event, 'modal-admin')">
+    <div class="modal-box modal-wide">
+      <div class="modal-header">
+        <h3>HUBUNGI ADMIN</h3>
+        <button class="modal-close" onclick="app.closeModal('modal-admin')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="bp-grid">
+          <div class="bp-item">
+            <h4>1. Follow Instagram</h4>        
+            <p><strong>@</strong> ojannnm</p>
+          </div>
+          <div class="bp-item">
+            <h4>2. Follow TikTok</h4>
+            <p><strong>@</strong> ojannnm</p>
+          </div>
+          <div class="bp-item">
+            <h4>3. Telepon</h4>
+            <p><strong>Nomor:</strong> 089652413534</p>
+          </div>
+          <div class="bp-item">
+            <h4>4. Email</h4>
+            <p><strong>Email:</strong> fauzanmutasim@gmail.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifikasi -->
+  <div id="toast" class="toast"></div>
+
+  <!-- SCRIPT DATABASE & LOGIKA APLIKASI -->
+  <script src="database.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
